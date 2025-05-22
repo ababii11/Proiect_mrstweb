@@ -250,13 +250,9 @@
     <Content Include="Scripts\vendor\modernizr-3.5.0.min.js" />
     <Content Include="Scripts\waypoints.min.js" />
     <Content Include="Scripts\wow.min.js" />
-    <Content Include="Views\Home\about.html" />
     <Content Include="Views\Home\blog.html" />
-    <Content Include="Views\Home\contact.html" />
     <Content Include="Views\Home\elements.html" />
-    <Content Include="Views\Home\index.html" />
     <Content Include="Views\Home\main.html" />
-    <Content Include="Views\Home\Recipes.html" />
     <Content Include="Views\Home\recipes_details.html" />
     <Content Include="Views\Home\single-blog.html" />
     <Content Include="Web.config" />

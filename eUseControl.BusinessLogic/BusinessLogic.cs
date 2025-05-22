@@ -10,14 +10,6 @@ namespace eUseControl.BusinessLogic
             return new SessionBL();
         }
 
-        public IRecipeService GetRecipeService()
-        {
-            return new RecipeService();
-        }
-
-        public ICategoryService GetCategoryService()
-        {
-            return new CategoryService();
-        }
+       
     }
 } 

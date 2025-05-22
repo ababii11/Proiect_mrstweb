@@ -4,7 +4,7 @@ using System.Web.Security;
 using System.Collections.Generic;
 using System.Linq;
 using eUseControl.Domain.Entities.User;
-
+using eUseControl.Domain.Enums;
 namespace MRSTWeb.Controllers
 {
     public class AccountController : Controller

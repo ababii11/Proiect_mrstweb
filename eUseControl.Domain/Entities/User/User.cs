@@ -4,12 +4,7 @@ using eUseControl.Domain.Enums;
 
 namespace eUseControl.Domain.Entities.User
 {
-    public enum URole
-    {
-        Guest,
-        User,
-        Admin
-    }
+
     public class User
     {
         public int Id { get; set; }

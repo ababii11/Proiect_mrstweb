@@ -1,4 +1,4 @@
-@model IEnumerable<MRSTWeb.Models.Recipe>
+
 @{
     ViewBag.Title = "Home";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -37,20 +37,8 @@
             </div>
         </div>
         <div class="row">
-            @foreach (var recipe in Model)
-            {
-                <div class="col-xl-4 col-lg-4 col-md-6">
-                    <div class="single_recepie text-center">
-                        <div class="recepie_thumb">
-                            <img src="@Url.Content(recipe.ImageUrl)" alt="@recipe.Name">
-                        </div>
-                        <h3>@recipe.Name</h3>
-                        <span>@recipe.Category.Name</span>
-                        <p>Time Needs: @(recipe.PrepTime + recipe.CookTime) Mins</p>
-                        <a href="@Url.Action("RecipeDetails", "Home", new { id = recipe.RecipeId })" class="line_btn">View Full Recipe</a>
-                    </div>
-                </div>
-            }
+         
+                
         </div>
     </div>
 </div>

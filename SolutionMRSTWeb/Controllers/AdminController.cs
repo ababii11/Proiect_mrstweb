@@ -18,8 +18,7 @@ namespace MRSTWeb.Controllers
         public AdminController()
         {
             var bl = new BusinessLogic();
-            _recipeService = bl.GetRecipeService();
-            _categoryService = bl.GetCategoryService();
+            
         }
 
         // GET: Admin

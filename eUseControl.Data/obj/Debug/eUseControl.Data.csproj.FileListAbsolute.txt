@@ -21,3 +21,5 @@ C:\Users\HP\Desktop\Solution MRSTWeb\eUseControl.Data\bin\Debug\System.Web.Optim
 C:\Users\HP\Desktop\Solution MRSTWeb\eUseControl.Data\bin\Debug\WebGrease.dll
 C:\Users\HP\Desktop\Solution MRSTWeb\eUseControl.Data\bin\Debug\Antlr3.Runtime.pdb
 C:\Users\HP\Desktop\Solution MRSTWeb\eUseControl.Data\bin\Debug\System.Web.Optimization.xml
+C:\Users\HP\Desktop\Solution MRSTWeb\eUseControl.Data\obj\Debug\eUseControl.Data.Migrations.User.resources
+C:\Users\HP\Desktop\Solution MRSTWeb\eUseControl.Data\obj\Debug\eUseControl.Data.csproj.GenerateResource.cache

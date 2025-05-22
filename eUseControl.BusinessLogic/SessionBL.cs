@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using eUseControl.BusinessLogic.Core;
 using eUseControl.BusinessLogic.Interfaces;
 using eUseControl.Domain.Entities.User;
+using eUseControl.Domain.Enums;
 
 namespace eUseControl.BusinessLogic
 {
