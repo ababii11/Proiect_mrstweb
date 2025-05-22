@@ -1,0 +1,9 @@
+# Ignoră fișiere Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.VC.db
+*.vscode/
+*.vsidx
