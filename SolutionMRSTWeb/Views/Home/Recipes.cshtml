@@ -5,13 +5,15 @@
     var categories = ViewBag.Categories as SelectList ?? new SelectList(Enumerable.Empty<SelectListItem>());
 }
 
-<!-- bradcam_area  -->
-<div class="bradcam_area bradcam_bg_1">
+<!-- bradcam_area with food background -->
+<div class="bradcam_area food_background">
+    <div class="bradcam_overlay"></div>
     <div class="container">
         <div class="row">
             <div class="col-xl-12">
                 <div class="bradcam_text text-center">
-                    <h3>Our Recipes</h3>
+                    <h3>Culinary Delights</h3>
+                    <p class="subtitle">Discover our delicious collection of recipes</p>
                 </div>
             </div>
         </div>
@@ -19,24 +21,53 @@
 </div>
 <!-- /bradcam_area  -->
 
+<!-- Recipe Categories Section -->
+<div class="recipe_category_section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="section_title text-center mb-70">
+                    <h3>Find Your Perfect Recipe</h3>
+                    <p>Browse our collection by category or search for ingredients you have on hand</p>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center mb-5">
+            <div class="col-xl-10 col-lg-10">
+                <div class="category_buttons">
+                    <a href="@Url.Action("Recipes", "Home")" class="category_btn @(Request["categoryId"] == null ? "active" : "")">All Recipes</a>
+                    <a href="@Url.Action("Recipes", "Home", new { categoryId = 1 })" class="category_btn @(Request["categoryId"] == "1" ? "active" : "")">Italian</a>
+                    <a href="@Url.Action("Recipes", "Home", new { categoryId = 2 })" class="category_btn @(Request["categoryId"] == "2" ? "active" : "")">Seafood</a>
+                    <a href="@Url.Action("Recipes", "Home", new { categoryId = 3 })" class="category_btn @(Request["categoryId"] == "3" ? "active" : "")">Dessert</a>
+                    <a href="@Url.Action("Recipes", "Home", new { categoryId = 4 })" class="category_btn @(Request["categoryId"] == "4" ? "active" : "")">Mediterranean</a>
+                    <a href="@Url.Action("Recipes", "Home", new { categoryId = 5 })" class="category_btn @(Request["categoryId"] == "5" ? "active" : "")">Asian</a>
+                    <a href="@Url.Action("Recipes", "Home", new { categoryId = 6 })" class="category_btn @(Request["categoryId"] == "6" ? "active" : "")">Mexican</a>
+                    <a href="@Url.Action("Recipes", "Home", new { categoryId = 7 })" class="category_btn @(Request["categoryId"] == "7" ? "active" : "")">Baking</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Recipe Categories Section -->
+
 <!-- FILTER BAR START -->
-<div class="container mb-4 mt-4">
+<div class="container mb-5">
     <div class="row justify-content-center">
         <div class="col-xl-10 col-lg-10 col-md-12">
             @using (Html.BeginForm("Recipes", "Home", FormMethod.Get, new { @class = "filter-form" }))
             {
                 <div class="filter-bar d-flex flex-wrap align-items-center justify-content-between p-4 shadow rounded bg-white">
                     <div class="form-group mb-2 mb-md-0">
-                        <label for="categoryId" class="mb-1">Category</label>
+                        <label for="categoryId" class="mb-1 filter-label">Category</label>
                         @Html.DropDownList("categoryId", categories, "All Categories", new { @class = "form-control filter-select" })
                     </div>
                     <div class="form-group mb-2 mb-md-0 flex-grow-1 mx-md-3">
-                        <label for="searchTerm" class="mb-1">Recipe Name</label>
-                        <input type="text" name="searchTerm" id="searchTerm" class="form-control filter-input" placeholder="Search by name..." value="@Request["searchTerm"]" />
+                        <label for="searchTerm" class="mb-1 filter-label">Recipe Name or Ingredient</label>
+                        <input type="text" name="searchTerm" id="searchTerm" class="form-control filter-input" placeholder="Search recipes..." value="@Request["searchTerm"]" />
                     </div>
                     <div class="form-group mb-2 mb-md-0">
                         <label class="d-none d-md-block mb-1">&nbsp;</label>
-                        <button type="submit" class="btn filter-btn">🍲 Filter Recipes</button>
+                        <button type="submit" class="btn filter-btn"><i class="fas fa-search"></i> Find Recipes</button>
                     </div>
                 </div>
             }
@@ -49,25 +80,54 @@
 <div class="recepie_area plus_padding">
     <div class="container">
         <div class="row">
-            @foreach (var recipe in Model)
+            @if (!Model.Any())
             {
-                <div class="col-xl-4 col-lg-4 col-md-6">
-                    <div class="single_recepie text-center">
-                        <div class="recepie_thumb">
-                            <img src="@Url.Content(recipe.ImageUrl)" alt="@recipe.Name">
-                        </div>
-                        <h3>@recipe.Name</h3>
-                        <span>@recipe.Category.Name</span>
-                        <div class="recipe_info">
-                            <p><strong>Time Needs:</strong> @(recipe.PrepTime + recipe.CookTime) Mins</p>
-                            <div class="ingredients_preview">
-                                <p><strong>Ingredients:</strong></p>
-                                <p class="ingredients_text">@recipe.Ingredients</p>
-                            </div>
-                        </div>
-                        <a href="@Url.Action("RecipeDetails", "Home", new { id = recipe.RecipeId })" class="line_btn">View Full Recipe</a>
+                <div class="col-12 text-center">
+                    <div class="no-recipes">
+                        <img src="~/Images/imagesss/4639426.png" alt="No recipes found" class="mb-4" style="max-width: 200px;">
+                        <h4>No recipes found</h4>
+                        <p>Try changing your search criteria or browse all recipes.</p>
+                        <a href="@Url.Action("Recipes", "Home")" class="btn filter-btn mt-3">View All Recipes</a>
                     </div>
                 </div>
+            }
+            else
+            {
+                foreach (var recipe in Model)
+                {
+                    <div class="col-xl-4 col-lg-4 col-md-6">
+                        <div class="recipe_card">
+                            <div class="recipe_image">
+                                <img src="@Url.Content(recipe.ImageUrl)" alt="@recipe.Name">
+                                <div class="recipe_time">
+                                    <span>@(recipe.PrepTime + recipe.CookTime) min</span>
+                                </div>
+                                <div class="recipe_category">
+                                    <span>@recipe.Category.Name</span>
+                                </div>
+                            </div>
+                            <div class="recipe_content">
+                                <h3>@recipe.Name</h3>
+                                <p class="recipe_description">@recipe.Description</p>
+                                <div class="recipe_meta">
+                                    <div class="prep_time">
+                                        <i class="fas fa-clock"></i> Prep: @recipe.PrepTime min
+                                    </div>
+                                    <div class="cook_time">
+                                        <i class="fas fa-fire"></i> Cook: @recipe.CookTime min
+                                    </div>
+                                </div>
+                                <div class="recipe_info">
+                                    <div class="ingredients_preview">
+                                        <h4><i class="fas fa-list"></i> Ingredients:</h4>
+                                        <p class="ingredients_text">@recipe.Ingredients</p>
+                                    </div>
+                                </div>
+                                <a href="@Url.Action("RecipeDetails", "Home", new { id = recipe.RecipeId })" class="view_recipe_btn">View Recipe <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                }
             }
         </div>
     </div>
@@ -75,70 +135,336 @@
 <!-- /recepie_area_end  -->
 
 <style>
-    .recipe_info {
-        padding: 15px;
-        margin: 10px 0;
-        background-color: #f9f9f9;
-        border-radius: 5px;
+    /* Food Background Styling */
+    .food_background {
+        background-image: url('../../Images/imagesss/food-4k-m37wpodzrcbv5gvw.jpg');
+        background-size: cover;
+        background-position: center;
+        position: relative;
+        padding: 150px 0;
+        margin-bottom: 20px;
     }
-
-    .ingredients_preview {
-        margin-top: 10px;
-        text-align: left;
+    
+    .bradcam_overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.7));
     }
-
-    .ingredients_text {
-        font-size: 14px;
+    
+    .bradcam_text {
+        position: relative;
+        z-index: 2;
+    }
+    
+    .bradcam_text h3 {
+        font-size: 48px;
+        font-weight: 700;
+        color: #fff;
+        margin-bottom: 15px;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    }
+    
+    .bradcam_text .subtitle {
+        color: #fff;
+        font-size: 20px;
+        margin-top: 0;
+        text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+    }
+    
+    /* Decorative food elements */
+    .food_background::before {
+        content: '';
+        position: absolute;
+        top: -30px;
+        right: 5%;
+        width: 180px;
+        height: 180px;
+        border-radius: 50%;
+        background-image: url('../../Images/imagesss/featured-grilled-salmon-recipe.jpg');
+        background-size: cover;
+        background-position: center;
+        box-shadow: 0 5px 25px rgba(0,0,0,0.3);
+        opacity: 0.8;
+        z-index: 1;
+        animation: float 6s ease-in-out infinite;
+    }
+    
+    .food_background::after {
+        content: '';
+        position: absolute;
+        bottom: -25px;
+        left: 8%;
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        background-image: url('../../Images/imagesss/authentic-italian-pasta-sauce-3.jpg');
+        background-size: cover;
+        background-position: center;
+        box-shadow: 0 5px 25px rgba(0,0,0,0.3);
+        opacity: 0.8;
+        z-index: 1;
+        animation: float 8s ease-in-out infinite reverse;
+    }
+    
+    @@keyframes float {
+        0% {
+            transform: translateY(0);
+        }
+        50% {
+            transform: translateY(-15px);
+        }
+        100% {
+            transform: translateY(0);
+        }
+    }
+    
+    .section_title h3 {
+        font-size: 42px;
+        font-weight: 700;
+        margin-bottom: 20px;
+    }
+    
+    .section_title p {
+        font-size: 18px;
         color: #666;
-        margin-top: 5px;
-        line-height: 1.4;
-        /* Show only 3 lines of text */
-        display: -webkit-box;
-        -webkit-line-clamp: 3;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-        text-overflow: ellipsis;
     }
-
-    .single_recepie {
-        margin-bottom: 30px;
-        padding: 15px;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    
+    .category_buttons {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+    }
+    
+    .category_btn {
+        padding: 10px 20px;
+        border-radius: 50px;
+        background: #f8f8f8;
+        color: #333;
+        text-decoration: none;
         transition: all 0.3s ease;
+        font-weight: 500;
+        border: 1px solid #eee;
     }
-
-    .single_recepie:hover {
-        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    
+    .category_btn:hover, .category_btn.active {
+        background: #ff6426;
+        color: white;
+        border-color: #ff6426;
     }
-
+    
     .filter-bar {
         background-color: #fff;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        border-radius: 10px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.08);
     }
-
+    
+    .filter-label {
+        color: #333;
+        font-weight: 500;
+    }
+    
     .filter-btn {
         background-color: #ff6426;
         color: white;
         border: none;
-        padding: 8px 20px;
-        border-radius: 4px;
+        padding: 10px 24px;
+        border-radius: 6px;
         transition: all 0.3s ease;
+        font-weight: 500;
     }
-
+    
     .filter-btn:hover {
         background-color: #e55a20;
         color: white;
+        transform: translateY(-2px);
     }
-
+    
     .filter-select, .filter-input {
         border: 1px solid #ddd;
-        border-radius: 4px;
-        padding: 8px 12px;
+        border-radius: 6px;
+        padding: 10px 15px;
+        transition: all 0.3s ease;
     }
-
+    
     .filter-select:focus, .filter-input:focus {
         border-color: #ff6426;
         box-shadow: 0 0 0 0.2rem rgba(255, 100, 38, 0.25);
+    }
+    
+    .recipe_card {
+        margin-bottom: 40px;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+        background-color: #fff;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .recipe_card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    }
+    
+    .recipe_image {
+        position: relative;
+        overflow: hidden;
+        height: 250px;
+    }
+    
+    .recipe_image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+    
+    .recipe_card:hover .recipe_image img {
+        transform: scale(1.05);
+    }
+    
+    .recipe_time {
+        position: absolute;
+        bottom: 15px;
+        left: 15px;
+        background-color: rgba(0,0,0,0.7);
+        color: white;
+        padding: 5px 15px;
+        border-radius: 30px;
+        font-weight: 500;
+        font-size: 14px;
+    }
+    
+    .recipe_category {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background-color: #ff6426;
+        color: white;
+        padding: 5px 15px;
+        border-radius: 30px;
+        font-weight: 500;
+        font-size: 14px;
+    }
+    
+    .recipe_content {
+        padding: 25px;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .recipe_card h3 {
+        font-size: 22px;
+        font-weight: 700;
+        margin-bottom: 10px;
+        color: #333;
+    }
+    
+    .recipe_description {
+        color: #666;
+        margin-bottom: 15px;
+        line-height: 1.5;
+        font-size: 15px;
+    }
+    
+    .recipe_meta {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 15px;
+        color: #777;
+        font-size: 14px;
+    }
+    
+    .recipe_meta i {
+        margin-right: 5px;
+        color: #ff6426;
+    }
+    
+    .recipe_info {
+        background-color: #f9f9f9;
+        padding: 15px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        margin-top: auto;
+    }
+    
+    .ingredients_preview h4 {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 10px;
+        color: #333;
+    }
+    
+    .ingredients_preview i {
+        color: #ff6426;
+    }
+    
+    .ingredients_text {
+        font-size: 14px;
+        color: #666;
+        margin-top: 5px;
+        line-height: 1.5;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
+    .view_recipe_btn {
+        display: block;
+        text-align: center;
+        padding: 12px;
+        background-color: transparent;
+        color: #ff6426;
+        border: 1px solid #ff6426;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        font-weight: 600;
+        text-decoration: none;
+    }
+    
+    .view_recipe_btn:hover {
+        background-color: #ff6426;
+        color: white;
+    }
+    
+    .view_recipe_btn i {
+        margin-left: 5px;
+        transition: transform 0.3s ease;
+    }
+    
+    .view_recipe_btn:hover i {
+        transform: translateX(5px);
+    }
+    
+    .no-recipes {
+        padding: 60px 0;
+    }
+    
+    @@media (max-width: 768px) {
+        .category_btn {
+            padding: 8px 15px;
+            font-size: 14px;
+        }
+        
+        .recipe_image {
+            height: 200px;
+        }
+        
+        .recipe_content {
+            padding: 20px;
+        }
+        
+        .recipe_card h3 {
+            font-size: 20px;
+        }
     }
 </style> 

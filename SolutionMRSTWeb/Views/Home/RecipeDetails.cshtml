@@ -4,13 +4,15 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<!-- bradcam_area  -->
-<div class="bradcam_area bradcam_bg_1">
+<!-- bradcam_area with food background -->
+<div class="bradcam_area food_background">
+    <div class="bradcam_overlay"></div>
     <div class="container">
         <div class="row">
             <div class="col-xl-12">
                 <div class="bradcam_text text-center">
                     <h3>@Model.Name</h3>
+                    <p class="subtitle">@Model.Category.Name</p>
                 </div>
             </div>
         </div>
@@ -18,45 +20,359 @@
 </div>
 <!-- /bradcam_area  -->
 
-<div class="recepie_details_area">
+<div class="recepie_details_area section_padding">
     <div class="container">
-        <div class="row align-items-center">
-            <div class="col-xl-6 col-md-6">
+        <div class="row align-items-start">
+            <div class="col-xl-6 col-md-6 mb-4 mb-md-0">
                 <div class="recepie_thumb">
-                    <img class="img-fluid" src="@Url.Content(Model.ImageUrl)" alt="@Model.Name">
+                    <img class="img-fluid rounded shadow" src="@Url.Content(Model.ImageUrl)" alt="@Model.Name">
+                </div>
+                <div class="recipe_quick_facts mt-4 p-4 rounded shadow-sm">
+                    <div class="row text-center">
+                        <div class="col-4">
+                            <div class="quick_fact">
+                                <div class="icon">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div class="text">
+                                    <span class="label">Prep Time</span>
+                                    <span class="value">@Model.PrepTime min</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="quick_fact">
+                                <div class="icon">
+                                    <i class="fas fa-fire"></i>
+                                </div>
+                                <div class="text">
+                                    <span class="label">Cook Time</span>
+                                    <span class="value">@Model.CookTime min</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="quick_fact">
+                                <div class="icon">
+                                    <i class="fas fa-utensils"></i>
+                                </div>
+                                <div class="text">
+                                    <span class="label">Total</span>
+                                    <span class="value">@(Model.PrepTime + Model.CookTime) min</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="col-xl-6 col-md-6">
-                <div class="recepie_info">
-                    <h3>@Model.Name</h3>
-                    <p>@Model.Description</p>
-                    
-                    <div class="prep_time">
-                        <h4>Preparation Time:</h4>
-                        <p><i class="fa fa-clock-o"></i> @Model.PrepTime minutes</p>
+                <div class="recipe_details_content">
+                    <div class="recipe_description mb-4">
+                        <h3 class="section_heading">Description</h3>
+                        <p class="description_text">@Model.Description</p>
                     </div>
                     
-                    <div class="cook_time">
-                        <h4>Cooking Time:</h4>
-                        <p><i class="fa fa-clock-o"></i> @Model.CookTime minutes</p>
-                    </div>
-                    
-                    <div class="ingredients">
-                        <h4>Ingredients:</h4>
-                        <p>@Model.Ingredients</p>
-                    </div>
-                    
-                    <div class="instructions">
-                        <h4>Instructions:</h4>
-                        <p>@Html.Raw(Model.Instructions.Replace("\n", "<br />"))</p>
-                    </div>
-                    
-                    <div class="category">
-                        <h4>Category:</h4>
-                        <p>@Model.Category.Name</p>
+                    <div class="recipe_ingredients mb-4">
+                        <h3 class="section_heading">Ingredients</h3>
+                        <ul class="ingredients_list">
+                            @foreach (var ingredient in Model.Ingredients.Split(','))
+                            {
+                                <li><i class="fas fa-check-circle"></i> @ingredient.Trim()</li>
+                            }
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
+        
+        <div class="row mt-5">
+            <div class="col-12">
+                <div class="recipe_instructions">
+                    <h3 class="section_heading">Instructions</h3>
+                    <div class="instructions_steps">
+                        @{
+                            var instructions = Model.Instructions.Split('\n');
+                            for (int i = 0; i < instructions.Length; i++)
+                            {
+                                var step = instructions[i].Trim();
+                                if (!string.IsNullOrEmpty(step))
+                                {
+                                    <div class="instruction_step">
+                                        <span class="step_number">@(i + 1)</span>
+                                        <p class="step_text">@step.Substring(step.IndexOf('.') + 1).Trim()</p>
+                                    </div>
+                                }
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mt-4">
+            <div class="col-12 text-center">
+                <a href="@Url.Action("Recipes", "Home")" class="btn back_to_recipes_btn">
+                    <i class="fas fa-arrow-left"></i> Back to All Recipes
+                </a>
+            </div>
+        </div>
     </div>
-</div> 
+</div>
+
+<style>
+    /* Food Background Styling */
+    .food_background {
+        background-image: url('../../Images/imagesss/food-4k-m37wpodzrcbv5gvw.jpg');
+        background-size: cover;
+        background-position: center;
+        position: relative;
+        padding: 150px 0;
+        margin-bottom: 20px;
+    }
+    
+    .bradcam_overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.7));
+    }
+    
+    .bradcam_text {
+        position: relative;
+        z-index: 2;
+    }
+    
+    .bradcam_text h3 {
+        font-size: 48px;
+        font-weight: 700;
+        color: #fff;
+        margin-bottom: 15px;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    }
+    
+    .bradcam_text .subtitle {
+        color: #fff;
+        font-size: 20px;
+        margin-top: 0;
+        text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+    }
+    
+    /* Decorative food elements */
+    .food_background::before {
+        content: '';
+        position: absolute;
+        top: -30px;
+        right: 5%;
+        width: 180px;
+        height: 180px;
+        border-radius: 50%;
+        background-image: url('../../Images/imagesss/featured-grilled-salmon-recipe.jpg');
+        background-size: cover;
+        background-position: center;
+        box-shadow: 0 5px 25px rgba(0,0,0,0.3);
+        opacity: 0.8;
+        z-index: 1;
+        animation: float 6s ease-in-out infinite;
+    }
+    
+    .food_background::after {
+        content: '';
+        position: absolute;
+        bottom: -25px;
+        left: 8%;
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        background-image: url('../../Images/imagesss/authentic-italian-pasta-sauce-3.jpg');
+        background-size: cover;
+        background-position: center;
+        box-shadow: 0 5px 25px rgba(0,0,0,0.3);
+        opacity: 0.8;
+        z-index: 1;
+        animation: float 8s ease-in-out infinite reverse;
+    }
+    
+    @@keyframes float {
+        0% {
+            transform: translateY(0);
+        }
+        50% {
+            transform: translateY(-15px);
+        }
+        100% {
+            transform: translateY(0);
+        }
+    }
+    
+    .section_padding {
+        padding: 80px 0;
+    }
+    
+    .recepie_thumb img {
+        width: 100%;
+        height: auto;
+        border-radius: 15px;
+        transition: all 0.3s ease;
+    }
+    
+    .section_heading {
+        font-size: 28px;
+        font-weight: 700;
+        margin-bottom: 20px;
+        color: #333;
+        position: relative;
+        padding-bottom: 10px;
+    }
+    
+    .section_heading:after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 60px;
+        height: 3px;
+        background: #ff6426;
+    }
+    
+    .description_text {
+        font-size: 16px;
+        line-height: 1.8;
+        color: #666;
+    }
+    
+    .ingredients_list {
+        list-style: none;
+        padding-left: 0;
+        margin: 0;
+    }
+    
+    .ingredients_list li {
+        padding: 10px 0;
+        border-bottom: 1px dashed #eee;
+        font-size: 16px;
+        color: #555;
+        display: flex;
+        align-items: center;
+    }
+    
+    .ingredients_list li:last-child {
+        border-bottom: none;
+    }
+    
+    .ingredients_list li i {
+        color: #ff6426;
+        margin-right: 10px;
+    }
+    
+    .instructions_steps {
+        counter-reset: step-counter;
+    }
+    
+    .instruction_step {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+        border-bottom: 1px dashed #eee;
+    }
+    
+    .instruction_step:last-child {
+        border-bottom: none;
+    }
+    
+    .step_number {
+        background: #ff6426;
+        color: white;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        margin-right: 15px;
+        flex-shrink: 0;
+    }
+    
+    .step_text {
+        font-size: 16px;
+        line-height: 1.8;
+        color: #555;
+        margin: 0;
+        flex-grow: 1;
+        padding-top: 8px;
+    }
+    
+    .quick_fact {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .quick_fact .icon {
+        font-size: 24px;
+        color: #ff6426;
+        margin-bottom: 10px;
+    }
+    
+    .quick_fact .text {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .quick_fact .label {
+        font-size: 14px;
+        color: #777;
+    }
+    
+    .quick_fact .value {
+        font-size: 18px;
+        font-weight: 700;
+        color: #333;
+    }
+    
+    .recipe_quick_facts {
+        background-color: #fff;
+        border-radius: 10px;
+    }
+    
+    .back_to_recipes_btn {
+        display: inline-block;
+        background-color: #ff6426;
+        color: white;
+        padding: 12px 30px;
+        border-radius: 50px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        margin-top: 20px;
+    }
+    
+    .back_to_recipes_btn:hover {
+        background-color: #e55a20;
+        color: white;
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(229, 90, 32, 0.3);
+    }
+    
+    .back_to_recipes_btn i {
+        margin-right: 8px;
+    }
+    
+    @@media (max-width: 768px) {
+        .section_padding {
+            padding: 50px 0;
+        }
+        
+        .section_heading {
+            font-size: 24px;
+        }
+        
+        .step_number {
+            width: 35px;
+            height: 35px;
+        }
+    }
+</style> 
