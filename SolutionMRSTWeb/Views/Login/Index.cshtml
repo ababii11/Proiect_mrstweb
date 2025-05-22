@@ -1,0 +1,94 @@
+@model eUseControl.Domain.Entities.User.User
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- bradcam_area  -->
+<div class="bradcam_area bradcam_bg_1">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="bradcam_text text-center">
+                    <h3>Login</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /bradcam_area  -->
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
+                    <h4 class="card-title text-center mb-4">Sign In to Your Account</h4>
+                    
+                    @using (Html.BeginForm("Index", "Login", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        
+                        if (!ViewData.ModelState.IsValid)
+                        {
+                            <div class="alert alert-danger">
+                                @Html.ValidationSummary(true)
+                            </div>
+                        }
+                        
+                        <div class="form-group mb-3">
+                            <label for="Email" class="control-label">Email or Username</label>
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Enter your email or username" })
+                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                        </div>
+                        
+                        <div class="form-group mb-3">
+                            <label for="Password" class="control-label">Password</label>
+                            @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Enter your password" })
+                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                        </div>
+                        
+                        <div class="form-group text-center mb-3">
+                            <button type="submit" class="btn btn-primary btn-block">Login</button>
+                        </div>
+                        
+                        <div class="text-center">
+                            <p>
+                                Don't have an account? 
+                                @Html.ActionLink("Register here", "Register", "Account")
+                            </p>
+                            <p>
+                                @Html.ActionLink("Forgot your password?", "ForgotPassword", "Account")
+                            </p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .btn-primary {
+        background-color: #ff6426;
+        border-color: #ff6426;
+    }
+    
+    .btn-primary:hover {
+        background-color: #e55a20;
+        border-color: #e55a20;
+    }
+    
+    a {
+        color: #ff6426;
+    }
+    
+    a:hover {
+        color: #e55a20;
+    }
+    
+    .form-control:focus {
+        border-color: #ff6426;
+        box-shadow: 0 0 0 0.2rem rgba(255, 100, 38, 0.25);
+    }
+</style> 
