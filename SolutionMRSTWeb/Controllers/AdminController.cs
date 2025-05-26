@@ -5,9 +5,11 @@ using eUseControl.Domain.Entities.User;
 using eUseControl.Domain.Entities.Recipe;
 using eUseControl.BusinessLogic;
 using eUseControl.BusinessLogic.Interfaces;
+
 using System.Linq;
 
-namespace MRSTWeb.Controllers
+
+namespace SolutionMRSTWeb.Controllers
 {
     [Authorize(Roles = "Admin")]
     public class AdminController : Controller
@@ -15,10 +17,10 @@ namespace MRSTWeb.Controllers
         private readonly IRecipeService _recipeService;
         private readonly ICategoryService _categoryService;
 
-        public AdminController()
+        public AdminController(IRecipeService recipeService, ICategoryService categoryService)
         {
-            var bl = new BusinessLogic();
-            
+            _recipeService = recipeService;
+            _categoryService = categoryService;
         }
 
         // GET: Admin

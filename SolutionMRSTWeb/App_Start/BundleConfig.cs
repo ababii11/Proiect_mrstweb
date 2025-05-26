@@ -4,21 +4,33 @@ using System.Linq;
 using System.Web;
 using System.Web.Optimization;
 
-namespace eUseControl.App_Start
-
+namespace SolutionMRSTWeb
 {
     public class BundleConfig
     {
         // For more information on bundling, visit https://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {
+            bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
+                        "~/Scripts/vendor/jquery-1.12.4.min.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
-                "~/Scripts/jquery.validate*"));
+                        "~/Scripts/vendor/jquery.validate.min.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
+                        "~/Scripts/vendor/modernizr-3.5.0.min.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
+                      "~/Scripts/vendor/bootstrap.min.js",
+                      "~/Scripts/vendor/popper.min.js"));
+
+            bundles.Add(new StyleBundle("~/Content/css").Include(
+                      "~/Content/bootstrap.min.css",
+                      "~/Content/site.css"));
 
             // CSS Bundles
             bundles.Add(new StyleBundle("~/Content/css").Include(
                 "~/Content/animate.min.css",
-                "~/Content/bootstrap.min.css",
                 "~/Content/flaticon.css",
                 "~/Content/font-awesome.min.css",
                 "~/Content/gijgo.css",

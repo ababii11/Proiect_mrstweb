@@ -5,8 +5,7 @@ using eUseControl.BusinessLogic;
 using eUseControl.BusinessLogic.Interfaces;
 using eUseControl.Domain.Entities.Recipe;
 
-
-namespace MRSTWeb.Controllers
+namespace SolutionMRSTWeb.Controllers
 {
     public class HomeController : Controller
     {
@@ -15,20 +14,34 @@ namespace MRSTWeb.Controllers
 
         public HomeController()
         {
-            var bl = new BusinessLogic();
-            // Initialize recipe and category services
-            // Since these aren't implemented, we'll create empty lists for now
+            _recipeService = null;
+            _categoryService = null;
+        }
+
+        public HomeController(IRecipeService recipeService, ICategoryService categoryService)
+        {
+            _recipeService = recipeService;
+            _categoryService = categoryService;
         }
 
         // GET: Home
         public ActionResult Index()
         {
+            // Comment out service calls for now
+            //var featuredRecipes = _recipeService.GetFeaturedRecipes();
+            //var categories = _categoryService.GetAllCategories();
+            
+            //ViewBag.Categories = categories;
+            //return View(featuredRecipes);
+
+            // Return empty view for now
             return View();
         }
 
         // GET: About
         public ActionResult About()
         {
+            ViewBag.Message = "Your application description page.";
             return View();
         }
 
@@ -144,7 +157,7 @@ namespace MRSTWeb.Controllers
             });
             
             // Setup categories for dropdown
-            var categories = new System.Collections.Generic.List<System.Web.Mvc.SelectListItem>
+            var categoriesDropdown = new System.Collections.Generic.List<System.Web.Mvc.SelectListItem>
             {
                 new System.Web.Mvc.SelectListItem { Value = "1", Text = "Italian" },
                 new System.Web.Mvc.SelectListItem { Value = "2", Text = "Seafood" },
@@ -154,7 +167,7 @@ namespace MRSTWeb.Controllers
                 new System.Web.Mvc.SelectListItem { Value = "6", Text = "Mexican" },
                 new System.Web.Mvc.SelectListItem { Value = "7", Text = "Baking" }
             };
-            ViewBag.Categories = new SelectList(categories, "Value", "Text");
+            ViewBag.Categories = new SelectList(categoriesDropdown, "Value", "Text");
             
             // Filter by category if specified
             if (categoryId.HasValue && categoryId > 0)
@@ -324,6 +337,7 @@ namespace MRSTWeb.Controllers
         // GET: Contact
         public ActionResult Contact()
         {
+            ViewBag.Message = "Your contact page.";
             return View();
         }
     }
